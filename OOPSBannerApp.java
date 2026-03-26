@@ -1,68 +1,95 @@
 /**
  * OOPSBannerApp
  *
- * UC6 - OOPS Banner using Static Methods
+ * UC7 - Character Pattern using Inner Class
  *
  * @author Prithvi
- * @version 6.0
+ * @version 7.0
  */
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class OOPSBannerApp {
 
     public static void main(String[] args) {
 
-        String[][] letters = {
-                buildO(),
-                buildO(),
-                buildP(),
-                buildS()
-        };
+        CharacterPatternMap patternMap = new CharacterPatternMap();
 
-        for (int i = 0; i < 7; i++) {
-            String line = String.join("   ",
-                    letters[0][i],
-                    letters[1][i],
-                    letters[2][i],
-                    letters[3][i]);
+        String word = "OOPS";
+        String[][] letters = new String[word.length()][];
+
+        // Fetch patterns for each character
+        for (int i = 0; i < word.length(); i++) {
+            letters[i] = patternMap.getPattern(word.charAt(i));
+        }
+
+        // Print banner
+        for (int row = 0; row < 7; row++) {
+            StringBuilder line = new StringBuilder();
+
+            for (int col = 0; col < letters.length; col++) {
+                line.append(letters[col][row]);
+                if (col != letters.length - 1) {
+                    line.append("   ");
+                }
+            }
+
             System.out.println(line);
         }
     }
 
-    // O
-    public static String[] buildO() {
-        return new String[]{
-                " ***** ",
-                "*     *",
-                "*     *",
-                "*     *",
-                "*     *",
-                "*     *",
-                " ***** "
-        };
-    }
+    // 🔥 INNER CLASS
+    static class CharacterPatternMap {
 
-    // P
-    public static String[] buildP() {
-        return new String[]{
-                " ***** ",
-                "*     *",
-                "*     *",
-                " ***** ",
-                "*      ",
-                "*      ",
-                "*      "
-        };
-    }
+        private Map<Character, String[]> map = new HashMap<>();
 
-    // S (FIXED — this was your main issue)
-    public static String[] buildS() {
-        return new String[]{
-                " ***** ",
-                "*      ",
-                "*      ",
-                " ***** ",
-                "      *",
-                "      *",
-                " ***** "
-        };
+        public CharacterPatternMap() {
+
+            // O
+            map.put('O', new String[]{
+                    " ***** ",
+                    "*     *",
+                    "*     *",
+                    "*     *",
+                    "*     *",
+                    "*     *",
+                    " ***** "
+            });
+
+            // P
+            map.put('P', new String[]{
+                    " ***** ",
+                    "*     *",
+                    "*     *",
+                    " ***** ",
+                    "*      ",
+                    "*      ",
+                    "*      "
+            });
+
+            // S (correct shape)
+            map.put('S', new String[]{
+                    " ***** ",
+                    "*      ",
+                    "*      ",
+                    " ***** ",
+                    "      *",
+                    "      *",
+                    " ***** "
+            });
+        }
+
+        public String[] getPattern(char ch) {
+            return map.getOrDefault(ch, new String[]{
+                    "       ",
+                    "       ",
+                    "       ",
+                    "       ",
+                    "       ",
+                    "       ",
+                    "       "
+            });
+        }
     }
 }
